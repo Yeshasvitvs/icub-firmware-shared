@@ -1207,14 +1207,36 @@ typedef struct
     float   param2;
 } eOmc_jointSet_constraints_t;  EO_VERIFYsizeof(eOmc_jointSet_constraints_t, 12);
 
+typedef enum
+{
+  eomc_ctrl_out_type_n_a = 0,
+  eomc_ctrl_out_type_pwm = 1, 
+  eomc_ctrl_out_type_vel = 2,
+  eomc_ctrl_out_type_cur = 3
+} eOmc_ctrl_out_type_t;
 
 typedef struct
-{   //1+ 3+ 12 = 16
-    uint8_t                         candotorquecontrol          : 1;        // use eobool_true / eobool_false
-    uint8_t                         usespeedfeedbackfrommotors  : 1;        // use eobool_true / eobool_false
-    uint8_t                         pidoutputtype               : 3;        // use eOmc_pidoutputtype_t
-    uint8_t                         dummy                       : 3;        
-    uint8_t                         filler[3];
+{
+    uint8_t torque_ctrl_out_type : 2;
+    uint8_t olooop_ctrl_out_type : 2;
+    uint8_t postrj_ctrl_out_type : 2;
+    uint8_t veltrj_ctrl_out_type : 2;
+    uint8_t mixtrj_ctrl_out_type : 2;
+    uint8_t posdir_ctrl_out_type : 2;
+    uint8_t veldir_ctrl_out_type : 2;
+    uint8_t filler : 2;
+} eOmc_pid_output_types_t; EO_VERIFYsizeof(eOmc_pid_output_types_t, 2);
+
+typedef struct
+{   //2+ 1+ 1+ 12 = 16
+    //uint8_t                         candotorquecontrol          : 1;        // use eobool_true / eobool_false
+    //uint8_t                         usespeedfeedbackfrommotors  : 1;        // use eobool_true / eobool_false
+    //uint8_t                         pidoutputtype               : 3;        // use eOmc_pidoutputtype_t
+    //uint8_t                         dummy                       : 3;
+    //uint8_t                         filler[3];
+    eOmc_pid_output_types_t pid_output_types;
+    uint8_t usespeedfeedbackfrommotors;
+    uint8_t filler;
     eOmc_jointSet_constraints_t     constraints;
 } eOmc_jointset_configuration_t; EO_VERIFYsizeof(eOmc_jointset_configuration_t, 16);
 
