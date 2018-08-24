@@ -89,7 +89,7 @@ enum {  eomc_ctrlmval_idle          = 0x00,
         eomc_ctrlmval_impedance_pos = 0x04, //to be removed
         eomc_ctrlmval_impedance_vel = 0x05, //to be removed
         eomc_ctrlmval_current       = 0x06, 
-        eomc_ctrlmval_velocity_pos  = 0x07, //to be removed
+        eomc_ctrlmval_velocity_raw  = 0x07, //to be removed
         eomc_ctrlmval_mixed         = 0x08,
         eomc_ctrlmval_direct        = 0x09, 
         eomc_ctrlmval_hwFault       = 0x0A, 
@@ -120,10 +120,11 @@ typedef enum
     eomc_controlmode_cmd_impedance_pos              = eomc_ctrlmval_impedance_pos, //to be removed
     eomc_controlmode_cmd_impedance_vel              = eomc_ctrlmval_impedance_vel, //to be removed
     eomc_controlmode_cmd_current                    = eomc_ctrlmval_current,
+    eomc_controlmode_cmd_velocity_raw               = eomc_ctrlmval_velocity_raw,
     eomc_controlmode_cmd_openloop                   = eomc_ctrlmval_openloop, 
     eomc_controlmode_cmd_switch_everything_off      = eomc_ctrlmval_everything_off,    //to be removed   /**< it imposes a zero current on the motor and also turns the pwm off */    
     eomc_controlmode_cmd_mixed                      = eomc_ctrlmval_mixed,
-    eomc_controlmode_cmd_direct                     = eomc_ctrlmval_direct, 
+    eomc_controlmode_cmd_direct                     = eomc_ctrlmval_direct,
 } eOmc_controlmode_command_t;
 
 
@@ -145,9 +146,8 @@ typedef enum
     eomc_controlmode_impedance_pos              = eomc_ctrlmval_impedance_pos, //to be removed
     eomc_controlmode_impedance_vel              = eomc_ctrlmval_impedance_vel, //to be removed
     eomc_controlmode_current                    = eomc_ctrlmval_current, 
-    eomc_controlmode_velocity_pos               = eomc_ctrlmval_velocity_pos,   /*to be removed*/  /**< The controller is in position, but the controller switches to eomc_controlmode_velocity_pos
-                                                                                    automatically when it receives a velocity set setpoint. 
-                                                                                    In icub can proto there is not differences between velocity and velocity_pos */  
+    eomc_controlmode_velocity_raw               = eomc_ctrlmval_velocity_raw,   
+    
     eomc_controlmode_openloop                   = eomc_ctrlmval_openloop,
     eomc_controlmode_calib                      = eomc_ctrlmval_calib,      /**< it means joint is in calibration, without specifing wich type of calibartion joint is using. this value doesn't belong to icub can proto. */ 
     eomc_controlmode_mixed                      = eomc_ctrlmval_mixed,
