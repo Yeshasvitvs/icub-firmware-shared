@@ -89,13 +89,14 @@ enum {  eomc_ctrlmval_idle          = 0x00,
         eomc_ctrlmval_impedance_pos = 0x04, //to be removed
         eomc_ctrlmval_impedance_vel = 0x05, //to be removed
         eomc_ctrlmval_current       = 0x06, 
-        eomc_ctrlmval_velocity_raw  = 0x07, //to be removed
+        eomc_ctrlmval_velocity_pos  = 0x07, //to be removed
         eomc_ctrlmval_mixed         = 0x08,
         eomc_ctrlmval_direct        = 0x09, 
         eomc_ctrlmval_hwFault       = 0x0A, 
         eomc_ctrlmval_notConfigured = 0x0B, 
         eomc_ctrlmval_configured    = 0x0C, 
-        eomc_ctrlmval_forceIdle     = 0x0D, 
+        eomc_ctrlmval_forceIdle     = 0x0D,
+        eomc_ctrlmval_vel_direct    = 0x0E,    
         eomc_ctrlmval_openloop      = 0x50, 
         eomc_ctrlmval_everything_off= -16,   /*0xf0*/  //to be removed
         eomc_ctrlmval_calib         = -2,    /*0xfe*/
@@ -120,10 +121,11 @@ typedef enum
     eomc_controlmode_cmd_impedance_pos              = eomc_ctrlmval_impedance_pos, //to be removed
     eomc_controlmode_cmd_impedance_vel              = eomc_ctrlmval_impedance_vel, //to be removed
     eomc_controlmode_cmd_current                    = eomc_ctrlmval_current,
-    eomc_controlmode_cmd_velocity_raw               = eomc_ctrlmval_velocity_raw,
+    eomc_controlmode_cmd_vel_direct                 = eomc_ctrlmval_vel_direct,
     eomc_controlmode_cmd_openloop                   = eomc_ctrlmval_openloop, 
     eomc_controlmode_cmd_switch_everything_off      = eomc_ctrlmval_everything_off,    //to be removed   /**< it imposes a zero current on the motor and also turns the pwm off */    
     eomc_controlmode_cmd_mixed                      = eomc_ctrlmval_mixed,
+    eomc_controlmode_cmd_velocity_pos               = eomc_ctrlmval_velocity_pos,
     eomc_controlmode_cmd_direct                     = eomc_ctrlmval_direct,
 } eOmc_controlmode_command_t;
 
@@ -146,11 +148,11 @@ typedef enum
     eomc_controlmode_impedance_pos              = eomc_ctrlmval_impedance_pos, //to be removed
     eomc_controlmode_impedance_vel              = eomc_ctrlmval_impedance_vel, //to be removed
     eomc_controlmode_current                    = eomc_ctrlmval_current, 
-    eomc_controlmode_velocity_raw               = eomc_ctrlmval_velocity_raw,   
-    
+    eomc_controlmode_vel_direct                 = eomc_ctrlmval_vel_direct,   
     eomc_controlmode_openloop                   = eomc_ctrlmval_openloop,
     eomc_controlmode_calib                      = eomc_ctrlmval_calib,      /**< it means joint is in calibration, without specifing wich type of calibartion joint is using. this value doesn't belong to icub can proto. */ 
     eomc_controlmode_mixed                      = eomc_ctrlmval_mixed,
+    eomc_controlmode_velocity_pos               = eomc_ctrlmval_velocity_pos,  
     eomc_controlmode_direct                     = eomc_ctrlmval_direct,
     eomc_controlmode_hwFault                    = eomc_ctrlmval_hwFault,
     eomc_controlmode_notConfigured              = eomc_ctrlmval_notConfigured,
@@ -1229,14 +1231,15 @@ typedef struct
 
 typedef struct
 {   //2+ 1+ 1+ 12 = 16
-    //uint8_t                         candotorquecontrol          : 1;        // use eobool_true / eobool_false
-    //uint8_t                         usespeedfeedbackfrommotors  : 1;        // use eobool_true / eobool_false
-    //uint8_t                         pidoutputtype               : 3;        // use eOmc_pidoutputtype_t
-    //uint8_t                         dummy                       : 3;
-    //uint8_t                         filler[3];
+    uint8_t                         candotorquecontrol          : 1;        // use eobool_true / eobool_false
+    uint8_t                         usespeedfeedbackfrommotors  : 1;        // use eobool_true / eobool_false
+    uint8_t                         pidoutputtype               : 3;        // use eOmc_pidoutputtype_t
+    uint8_t                         dummy                       : 3;
     eOmc_pid_output_types_t pid_output_types;
-    uint8_t usespeedfeedbackfrommotors;
-    uint8_t filler;
+    uint8_t                         filler;
+    
+    //uint8_t usespeedfeedbackfrommotors;
+    //uint8_t filler;
     eOmc_jointSet_constraints_t     constraints;
 } eOmc_jointset_configuration_t; EO_VERIFYsizeof(eOmc_jointset_configuration_t, 16);
 
